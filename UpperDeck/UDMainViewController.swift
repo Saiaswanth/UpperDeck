@@ -18,6 +18,10 @@ class UDMainViewController: UIViewController {
     @IBOutlet weak var homeDeliveryTabSelectionView: UIView!
     @IBOutlet weak var containerScrollView: UIScrollView!
     
+    var homeViewController:UDHomeViewController!
+    var bookingViewController:UDBookingViewController!
+    var homeDeliveryViewController:UDHomeDeliveryViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,8 +45,12 @@ class UDMainViewController: UIViewController {
         self.bookingTabSelectionView.isHidden = true
         self.homeDeliveryTabSelectionView.isHidden = true
         
-        let homeViewController = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! UDHomeViewController
-        self.containerScrollView.contentSize = CGSize(width: homeViewController.view.frame.size.width, height: homeViewController.view.frame.size.height)
+        if homeViewController == nil {
+            
+            homeViewController = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! UDHomeViewController
+        }
+        
+        self.containerScrollView.contentSize = CGSize(width: homeViewController.view.frame.size.width, height: homeViewController.view.frame.size.height - 30)
         
         self.containerScrollView.addSubview(homeViewController.view)
         
@@ -55,8 +63,12 @@ class UDMainViewController: UIViewController {
         self.bookingTabSelectionView.isHidden = false
         self.homeDeliveryTabSelectionView.isHidden = true
         
-        let bookingViewController = storyboard?.instantiateViewController(withIdentifier: "BookingViewController") as! UDBookingViewController
+        if bookingViewController == nil{
+            
+            bookingViewController = storyboard?.instantiateViewController(withIdentifier: "BookingViewController") as! UDBookingViewController
+        }
         
+        self.containerScrollView.contentSize = CGSize(width: bookingViewController.view.frame.size.width, height: bookingViewController.view.frame.size.height - 30)
         self.containerScrollView.addSubview(bookingViewController.view)
     }
     
@@ -67,8 +79,12 @@ class UDMainViewController: UIViewController {
         self.bookingTabSelectionView.isHidden = true
         self.homeDeliveryTabSelectionView.isHidden = false
         
-        let homeDeliveryViewController = storyboard?.instantiateViewController(withIdentifier: "HomeDeliveryViewController") as! UDHomeDeliveryViewController
+        if homeDeliveryViewController == nil{
+            
+            homeDeliveryViewController = storyboard?.instantiateViewController(withIdentifier: "HomeDeliveryViewController") as! UDHomeDeliveryViewController
+        }
         
+        self.containerScrollView.contentSize = CGSize(width: homeDeliveryViewController.view.frame.size.width, height: homeDeliveryViewController.view.frame.size.height - 30)
         self.containerScrollView.addSubview(homeDeliveryViewController.view)
     }
 }

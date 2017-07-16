@@ -13,6 +13,7 @@
 		324FFFC91F07B23D006D9F3C /* UDHomeDeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324FFFC81F07B23D006D9F3C /* UDHomeDeliveryViewController.swift */; };
 		324FFFCB1F097872006D9F3C /* UDDishCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324FFFCA1F097872006D9F3C /* UDDishCollectionViewCell.swift */; };
 		324FFFCD1F0C1410006D9F3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 324FFFCC1F0C1410006D9F3C /* GoogleService-Info.plist */; };
+		32B341251F1A93490019CB4A /* UDWebserviceConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B341241F1A93490019CB4A /* UDWebserviceConnection.swift */; };
 		32BC245E1F075CEF008661BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC245D1F075CEF008661BD /* AppDelegate.swift */; };
 		32BC24601F075CEF008661BD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC245F1F075CEF008661BD /* LoginViewController.swift */; };
 		32BC24631F075CEF008661BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32BC24611F075CEF008661BD /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 		324FFFC81F07B23D006D9F3C /* UDHomeDeliveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDHomeDeliveryViewController.swift; sourceTree = "<group>"; };
 		324FFFCA1F097872006D9F3C /* UDDishCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDDishCollectionViewCell.swift; sourceTree = "<group>"; };
 		324FFFCC1F0C1410006D9F3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		32B341241F1A93490019CB4A /* UDWebserviceConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDWebserviceConnection.swift; sourceTree = "<group>"; };
 		32BC245A1F075CEF008661BD /* UpperDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpperDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BC245D1F075CEF008661BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32BC245F1F075CEF008661BD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				324FFFCA1F097872006D9F3C /* UDDishCollectionViewCell.swift */,
 				324FFFCC1F0C1410006D9F3C /* GoogleService-Info.plist */,
 				32F00A8D1F10E8280094E956 /* UpperDeck-Bridging-Header.h */,
+				32B341241F1A93490019CB4A /* UDWebserviceConnection.swift */,
 			);
 			path = UpperDeck;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				324FFFC51F07AE83006D9F3C /* UDHomeViewController.swift in Sources */,
 				32BC24701F076739008661BD /* UDMainViewController.swift in Sources */,
 				324FFFC71F07B22E006D9F3C /* UDBookingViewController.swift in Sources */,
+				32B341251F1A93490019CB4A /* UDWebserviceConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

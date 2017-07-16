@@ -7,5 +7,8 @@ target 'UpperDeck' do
 
 pod ‘Google/SignIn’
   # Pods for UpperDeck
+  
+  platform :ios, '8.0'
+  pod 'SDWebImage', '~>4.0'
 
 end

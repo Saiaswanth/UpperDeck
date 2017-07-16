@@ -10,6 +10,6 @@ import UIKit
 
 class UDDishCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var itemName: UILabel!
     @IBOutlet weak var dishImageView: UIImageView!
-    @IBOutlet weak var dishName: UILabel!
 }
