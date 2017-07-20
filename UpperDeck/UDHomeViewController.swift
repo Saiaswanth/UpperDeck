@@ -13,16 +13,22 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
 
     // Constants
     let reuseIdentifier = "CellIdentifier"
-    let contactNumber = 8089890237
+    let contactNumber = 9567775545
     let requiredLatitude = 22.9783
     let requiredLongitude = 72.6002
     
-    let baseUrl = "http://www.upperdeck.in/ud/menu_main"
-    let homePageDataUrl = "http://www.upperdeck.in/ud/menu_main/menu_items.txt"
+    let menuBaseUrl = "http://www.upperdeck.in/ud/menu_main/"
+    let facilitiesBaseUrl = "http://www.upperdeck.in/ud/facilities/"
+    let menuDataUrl = "http://www.upperdeck.in/ud/menu_main/menu_items.txt"
+    let facilitiesDataUrl = "http://www.upperdeck.in/ud/facilities/facilities.txt"
     
     var itemArray: [[String:String]] = [[ : ]]
+    var facilitiesArray: [[String:String]] = [[:]]
+    
     
     // Outlets
+    @IBOutlet weak var facilitiesCollectionActivityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var menuCollectionActivityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var facilitiesCollectionView: UICollectionView!
     @IBOutlet weak var menuCollectionView: UICollectionView!
     
@@ -31,8 +37,16 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         super.viewDidLoad()
         
         itemArray.removeAll()
-        let url1 = URL(string: homePageDataUrl)
-        UDWebserviceConnection(self).download(url: url1!)
+        facilitiesArray.removeAll()
+        
+        let menuUrl = URL(string: menuDataUrl)
+        let facilitiesUrl = URL(string: facilitiesDataUrl)
+        
+        facilitiesCollectionActivityIndicatorView.startAnimating()
+        menuCollectionActivityIndicatorView.startAnimating()
+        
+        UDWebserviceConnection(self).download(url: menuUrl!, identifier: "Menu")
+        UDWebserviceConnection(self).download(url: facilitiesUrl!, identifier: "Facilities")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -44,7 +58,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     }
     
-    public func loadDataFromDownloadedText(_ filePath:URL){
+    public func loadDataFromDownloadedMenuText(_ filePath:URL){
         
         print("Downloaded file path is : \(filePath)")
         
@@ -53,21 +67,22 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
             print("My text is \(mytext)")
             
             let contents = mytext.components(separatedBy: "\n")
-            itemArray.removeAll()
+            self.itemArray.removeAll()
             for individualContent in contents {
                 
                 var dict:Dictionary<String,String> = [:]
-
+                
                 let itemDetails = individualContent.components(separatedBy: "\t")
-                
-                dict["itemName"] = itemDetails[0]
-                dict["itemImageName"] = itemDetails[1]
-                dict["itemDescription"] = itemDetails[2]
-                
-                if dict.count > 0 {
-                    itemArray.append(dict)
+                if itemDetails.count > 2 {
+                    
+                    dict["itemName"] = itemDetails[0]
+                    dict["itemImageName"] = itemDetails[1]
+                    dict["itemDescription"] = itemDetails[2]
+                    
+                    if dict.count > 0 {
+                        self.itemArray.append(dict)
+                    }
                 }
-                
             }
             
         } catch {
@@ -75,7 +90,69 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         }
         
         self.menuCollectionView.reloadData()
+        menuCollectionActivityIndicatorView.stopAnimating()
+        menuCollectionActivityIndicatorView.isHidden = true
         
+    }
+    
+    public func loadDataFromDownloadedFacilitiesText(_ filePath:URL){
+        
+        print("Downloaded file path is : \(filePath)")
+        
+        do {
+            let mytext = try String(contentsOf: filePath)
+            print("My text is \(mytext)")
+            
+            let contents = mytext.components(separatedBy: "\n")
+            self.facilitiesArray.removeAll()
+            for individualContent in contents {
+                
+                var dict:Dictionary<String,String> = [:]
+                
+                let itemDetails = individualContent.components(separatedBy: "\t")
+                if itemDetails.count > 2 {
+                    
+                    dict["itemName"] = itemDetails[0]
+                    dict["itemImageName"] = itemDetails[1]
+                    dict["itemDescription"] = itemDetails[2]
+                    
+                    if dict.count > 0 {
+                        self.facilitiesArray.append(dict)
+                    }
+                }
+            }
+            
+        } catch {
+            print("error loading contents of:", filePath, error)
+        }
+        
+        self.facilitiesCollectionView.reloadData()
+        self.facilitiesCollectionActivityIndicatorView.stopAnimating()
+        self.facilitiesCollectionActivityIndicatorView.isHidden = true
+        
+    }
+    
+    
+    func createFacilitiesSampleData() {
+        
+        var dictionaryA = [
+            "itemName": "Pool Table",
+            "itemImageName": "pooltable.jpg",
+            "itemDescription": "Binge on fun with Pool Table while you tickle your taste buds with our delicacies"
+        ]
+        var dictionaryB = [
+            "itemName": "Foosball",
+            "itemImageName": "foosball.jpg",
+            "itemDescription": "Enjoy the fun with Foosball while you spend some relaxing time with your friends"
+        ]
+        var dictionaryC = [
+            "itemName": "Play Station",
+            "itemImageName": "playstation.png",
+            "itemDescription": "Enjoy gaming with Play Station."
+        ]
+        facilitiesArray.append(dictionaryA)
+        facilitiesArray.append(dictionaryB)
+        facilitiesArray.append(dictionaryC)
     }
  
     //IBAction methods
@@ -135,7 +212,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         }
         if collectionView == facilitiesCollectionView {
             
-            itemCount = 5
+            itemCount = facilitiesArray.count
         }
         return itemCount
     }
@@ -149,7 +226,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
             
             if itemArray.count > 0 {
                 
-                let imageUrl = baseUrl + itemArray[indexPath.row]["itemImageName"]!
+                let imageUrl = menuBaseUrl + itemArray[indexPath.row]["itemImageName"]!
                 let itemName = itemArray[indexPath.row]["itemName"]
                 let itemDescription = itemArray[indexPath.row]["itemDescription"]
                 cell.dishImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
@@ -160,6 +237,15 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         if collectionView == facilitiesCollectionView {
             
             cell.dishImageView.backgroundColor = UIColor.darkGray
+            if facilitiesArray.count > 0 {
+                
+                let imageUrl = facilitiesBaseUrl + facilitiesArray[indexPath.row]["itemImageName"]!
+                let itemName = facilitiesArray[indexPath.row]["itemName"]
+                let itemDescription = facilitiesArray[indexPath.row]["itemDescription"]
+                cell.dishImageView.image = UIImage(named: facilitiesArray[indexPath.row]["itemImageName"]!)
+//                cell.dishImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
+                cell.itemName.text = ""
+            }
         }
 
         return cell

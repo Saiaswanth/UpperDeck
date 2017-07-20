@@ -12,11 +12,11 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
 
     var downloadUrl:URL!
     
-    var sourceViewController:UDHomeViewController!
+    var homeViewController:UDHomeViewController!
     
     init(_ obj1 : UDHomeViewController)
     {
-        self.sourceViewController = obj1
+        self.homeViewController = obj1
     }
     
     //is called once the download is complete
@@ -28,9 +28,16 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
         let dataFromURL = NSData(contentsOf: location)
         dataFromURL?.write(to: destinationUrl, atomically: true)
         
+        if session.configuration.identifier == "Menu" {
+            
+            self.homeViewController.loadDataFromDownloadedMenuText(destinationUrl)
+        }else{
+            
+            self.homeViewController.loadDataFromDownloadedFacilitiesText(destinationUrl)
+        }
+    
         
-        //now it is time to do what is needed to be done after the download
-        self.sourceViewController.loadDataFromDownloadedText(destinationUrl)
+        
     }
     
     //this is to track progress
@@ -49,14 +56,15 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
     }
     
     //method to be called to download
-    func download(url: URL)
+    func download(url: URL, identifier:String)
     {
         self.downloadUrl = url
         
         //download identifier can be customized. I used the "ulr.absoluteString"
-        let sessionConfig = URLSessionConfiguration.background(withIdentifier: url.absoluteString)
+        let sessionConfig = URLSessionConfiguration.background(withIdentifier: identifier)
         let session = Foundation.URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
         let task = session.downloadTask(with: url)
+        
         task.resume()
     }
 }

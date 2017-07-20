@@ -10,6 +10,7 @@ import UIKit
 
 class UDMainViewController: UIViewController {
 
+    @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var homeButton: UIButton!
     @IBOutlet weak var bookingButton: UIButton!
     @IBOutlet weak var homeDeliveryButton: UIButton!
@@ -35,22 +36,21 @@ class UDMainViewController: UIViewController {
     
     func setupUI(){
      
-     homeTabSelected(self.homeButton)
+        logoImageView.image = UIImage(named:"logo.jpg")
+        homeTabSelected(self.homeButton)
     }
 
     // Home tab button action
     @IBAction func homeTabSelected(_ sender: Any) {
         
         self.homeTabSelectionView.isHidden = false
-        self.bookingTabSelectionView.isHidden = true
-        self.homeDeliveryTabSelectionView.isHidden = true
         
         if homeViewController == nil {
             
             homeViewController = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! UDHomeViewController
         }
         
-        self.containerScrollView.contentSize = CGSize(width: homeViewController.view.frame.size.width, height: homeViewController.view.frame.size.height - 30)
+        self.containerScrollView.contentSize = CGSize(width: homeViewController.view.frame.size.width, height: homeViewController.view.frame.size.height)
         
         self.containerScrollView.addSubview(homeViewController.view)
         

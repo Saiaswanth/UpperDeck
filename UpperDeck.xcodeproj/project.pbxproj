@@ -66,6 +66,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32B341281F1E7A340019CB4A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		32BC24511F075CEF008661BD = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +94,7 @@
 		32BC245C1F075CEF008661BD /* UpperDeck */ = {
 			isa = PBXGroup;
 			children = (
+				32B341281F1E7A340019CB4A /* Resources */,
 				32BC245D1F075CEF008661BD /* AppDelegate.swift */,
 				32BC245F1F075CEF008661BD /* LoginViewController.swift */,
 				32BC24611F075CEF008661BD /* Main.storyboard */,
