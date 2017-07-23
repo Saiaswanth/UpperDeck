@@ -13,9 +13,11 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
 
     // Constants
     let reuseIdentifier = "CellIdentifier"
-    let contactNumber = 9567775545
-    let requiredLatitude = 22.9783
-    let requiredLongitude = 72.6002
+    let menuReuseIdentifier = "MenuCellReuseIdentifier"
+    let facilitiesReuseIdentifier = "FacilitiesCellReuseIdentifier"
+    let contactNumber:String = "+919567775545"
+    let requiredLatitude = 9.4540762
+    let requiredLongitude = 76.5360677
     
     let menuBaseUrl = "http://www.upperdeck.in/ud/menu_main/"
     let facilitiesBaseUrl = "http://www.upperdeck.in/ud/facilities/"
@@ -31,10 +33,23 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
     @IBOutlet weak var menuCollectionActivityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var facilitiesCollectionView: UICollectionView!
     @IBOutlet weak var menuCollectionView: UICollectionView!
+    @IBOutlet weak var callButton: UIButton!
     
     //Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Configuring call button
+        callButton.tintColor = UIColor.black
+        callButton.setImage(UIImage(named:"Call_icon.png"), for: .normal)
+        callButton.imageEdgeInsets = UIEdgeInsets(top: 6,left: 3,bottom: 6,right: 104)
+        callButton.titleEdgeInsets = UIEdgeInsets(top: 0,left: 3,bottom: 0,right: 10)
+        callButton.setTitle(String(contactNumber), for: .normal)
+        callButton.layer.borderWidth = 2.0
+        callButton.setTitleColor(UIColor.black, for: .normal)
+        callButton.backgroundColor = UIColor.clear //--> set the background color and check
+        callButton.layer.borderColor = UIColor(red: 121/255, green: 85/255, blue: 71/255, alpha: 1.0).cgColor
+        callButton.layer.cornerRadius = 5.0
         
         itemArray.removeAll()
         facilitiesArray.removeAll()
@@ -132,29 +147,6 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         
     }
     
-    
-    func createFacilitiesSampleData() {
-        
-        var dictionaryA = [
-            "itemName": "Pool Table",
-            "itemImageName": "pooltable.jpg",
-            "itemDescription": "Binge on fun with Pool Table while you tickle your taste buds with our delicacies"
-        ]
-        var dictionaryB = [
-            "itemName": "Foosball",
-            "itemImageName": "foosball.jpg",
-            "itemDescription": "Enjoy the fun with Foosball while you spend some relaxing time with your friends"
-        ]
-        var dictionaryC = [
-            "itemName": "Play Station",
-            "itemImageName": "playstation.png",
-            "itemDescription": "Enjoy gaming with Play Station."
-        ]
-        facilitiesArray.append(dictionaryA)
-        facilitiesArray.append(dictionaryB)
-        facilitiesArray.append(dictionaryC)
-    }
- 
     //IBAction methods
     
     // Map button action
@@ -168,7 +160,11 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
             
             let urlString = "http://maps.google.com/?daddr=\(requiredLatitude),\(requiredLongitude)&directionsmode=driving"
             
-            UIApplication.shared.open(URL(string: urlString)!, options:[:], completionHandler: nil)
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(URL(string: urlString)!, options:[:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(URL(string: urlString)!)
+            }
         }
         else
         {
@@ -177,19 +173,23 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
             
             let urlString = "http://maps.apple.com/maps?daddr=\(requiredLatitude),\(requiredLongitude)&dirflg=d"
             
-            UIApplication.shared.open(URL(string:urlString)!, options: [:], completionHandler: nil)
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(URL(string:urlString)!, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(URL(string: urlString)!)
+            }
         }
         
     }
     
-    @IBAction func callButtonTapped(_ sender: Any) {
-        
-        if let phoneCallURL:URL = URL(string: "tel:\(contactNumber)") {
+    @IBAction func callButtonTapped(_ sender: Any)
+    {
+        if let phoneCallURL:URL = URL(string: "telprompt:\(self.contactNumber)") {
             let application:UIApplication = UIApplication.shared
             if (application.canOpenURL(phoneCallURL)) {
                 let alertController = UIAlertController(title: "UpperDeck", message: "Are you sure you want to call \n\(self.contactNumber)?", preferredStyle: .alert)
                 let yesPressed = UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-                    UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
+                    UIApplication.shared.openURL(phoneCallURL)
                 })
                 let noPressed = UIAlertAction(title: "No", style: .default, handler: { (action) in
                     
@@ -216,7 +216,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         }
         return itemCount
     }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier:reuseIdentifier, for: indexPath as IndexPath) as! UDDishCollectionViewCell
         
@@ -242,16 +242,40 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
                 let imageUrl = facilitiesBaseUrl + facilitiesArray[indexPath.row]["itemImageName"]!
                 let itemName = facilitiesArray[indexPath.row]["itemName"]
                 let itemDescription = facilitiesArray[indexPath.row]["itemDescription"]
-                cell.dishImageView.image = UIImage(named: facilitiesArray[indexPath.row]["itemImageName"]!)
-//                cell.dishImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
+                //cell.dishImageView.image = UIImage(named: facilitiesArray[indexPath.row]["itemImageName"]!)
+                cell.dishImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
                 cell.itemName.text = ""
             }
         }
-
+        
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
+    
+    /*
+     func createFacilitiesSampleData() {
+     
+     var dictionaryA = [
+     "itemName": "Pool Table",
+     "itemImageName": "pooltable.jpg",
+     "itemDescription": "Binge on fun with Pool Table while you tickle your taste buds with our delicacies"
+     ]
+     var dictionaryB = [
+     "itemName": "Foosball",
+     "itemImageName": "foosball.jpg",
+     "itemDescription": "Enjoy the fun with Foosball while you spend some relaxing time with your friends"
+     ]
+     var dictionaryC = [
+     "itemName": "Play Station",
+     "itemImageName": "playstation.png",
+     "itemDescription": "Enjoy gaming with Play Station."
+     ]
+     facilitiesArray.append(dictionaryA)
+     facilitiesArray.append(dictionaryB)
+     facilitiesArray.append(dictionaryC)
+     }*/
+
 }

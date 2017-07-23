@@ -11,8 +11,8 @@
 		324FFFC51F07AE83006D9F3C /* UDHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324FFFC41F07AE83006D9F3C /* UDHomeViewController.swift */; };
 		324FFFC71F07B22E006D9F3C /* UDBookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324FFFC61F07B22E006D9F3C /* UDBookingViewController.swift */; };
 		324FFFC91F07B23D006D9F3C /* UDHomeDeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324FFFC81F07B23D006D9F3C /* UDHomeDeliveryViewController.swift */; };
-		324FFFCB1F097872006D9F3C /* UDDishCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324FFFCA1F097872006D9F3C /* UDDishCollectionViewCell.swift */; };
 		324FFFCD1F0C1410006D9F3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 324FFFCC1F0C1410006D9F3C /* GoogleService-Info.plist */; };
+		32712B3D1F24D37D001631E7 /* UDDishCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32712B3C1F24D37D001631E7 /* UDDishCollectionViewCell.swift */; };
 		32B341251F1A93490019CB4A /* UDWebserviceConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B341241F1A93490019CB4A /* UDWebserviceConnection.swift */; };
 		32BC245E1F075CEF008661BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC245D1F075CEF008661BD /* AppDelegate.swift */; };
 		32BC24601F075CEF008661BD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC245F1F075CEF008661BD /* LoginViewController.swift */; };
@@ -33,8 +33,8 @@
 		324FFFC41F07AE83006D9F3C /* UDHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDHomeViewController.swift; sourceTree = "<group>"; };
 		324FFFC61F07B22E006D9F3C /* UDBookingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDBookingViewController.swift; sourceTree = "<group>"; };
 		324FFFC81F07B23D006D9F3C /* UDHomeDeliveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDHomeDeliveryViewController.swift; sourceTree = "<group>"; };
-		324FFFCA1F097872006D9F3C /* UDDishCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDDishCollectionViewCell.swift; sourceTree = "<group>"; };
 		324FFFCC1F0C1410006D9F3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		32712B3C1F24D37D001631E7 /* UDDishCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDDishCollectionViewCell.swift; sourceTree = "<group>"; };
 		32B341241F1A93490019CB4A /* UDWebserviceConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDWebserviceConnection.swift; sourceTree = "<group>"; };
 		32BC245A1F075CEF008661BD /* UpperDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpperDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BC245D1F075CEF008661BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,13 +66,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		32B341281F1E7A340019CB4A /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		32BC24511F075CEF008661BD = {
 			isa = PBXGroup;
 			children = (
@@ -94,24 +87,79 @@
 		32BC245C1F075CEF008661BD /* UpperDeck */ = {
 			isa = PBXGroup;
 			children = (
-				32B341281F1E7A340019CB4A /* Resources */,
+				32E44E6B1F2481DC003048C0 /* Supporting Files */,
+				32E44E6A1F2481C0003048C0 /* Home Delivery */,
+				32E44E691F2481B0003048C0 /* Booking */,
+				32E44E681F248197003048C0 /* Main */,
+				32E44E671F248179003048C0 /* Login */,
+				32E44E661F24816A003048C0 /* Webservice */,
+				32E44E651F248130003048C0 /* Home */,
 				32BC245D1F075CEF008661BD /* AppDelegate.swift */,
-				32BC245F1F075CEF008661BD /* LoginViewController.swift */,
 				32BC24611F075CEF008661BD /* Main.storyboard */,
-				32BC24641F075CEF008661BD /* Assets.xcassets */,
 				32BC24661F075CEF008661BD /* LaunchScreen.storyboard */,
-				32BC24691F075CEF008661BD /* Info.plist */,
-				32BC246F1F076739008661BD /* UDMainViewController.swift */,
-				324FFFC21F07777A006D9F3C /* UDMainNavigationViewController.swift */,
-				324FFFC41F07AE83006D9F3C /* UDHomeViewController.swift */,
-				324FFFC61F07B22E006D9F3C /* UDBookingViewController.swift */,
-				324FFFC81F07B23D006D9F3C /* UDHomeDeliveryViewController.swift */,
-				324FFFCA1F097872006D9F3C /* UDDishCollectionViewCell.swift */,
-				324FFFCC1F0C1410006D9F3C /* GoogleService-Info.plist */,
-				32F00A8D1F10E8280094E956 /* UpperDeck-Bridging-Header.h */,
-				32B341241F1A93490019CB4A /* UDWebserviceConnection.swift */,
 			);
 			path = UpperDeck;
+			sourceTree = "<group>";
+		};
+		32E44E651F248130003048C0 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				32712B3C1F24D37D001631E7 /* UDDishCollectionViewCell.swift */,
+				324FFFC41F07AE83006D9F3C /* UDHomeViewController.swift */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		32E44E661F24816A003048C0 /* Webservice */ = {
+			isa = PBXGroup;
+			children = (
+				32B341241F1A93490019CB4A /* UDWebserviceConnection.swift */,
+			);
+			name = Webservice;
+			sourceTree = "<group>";
+		};
+		32E44E671F248179003048C0 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				32BC245F1F075CEF008661BD /* LoginViewController.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		32E44E681F248197003048C0 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				32BC246F1F076739008661BD /* UDMainViewController.swift */,
+				324FFFC21F07777A006D9F3C /* UDMainNavigationViewController.swift */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		32E44E691F2481B0003048C0 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				324FFFC61F07B22E006D9F3C /* UDBookingViewController.swift */,
+			);
+			name = Booking;
+			sourceTree = "<group>";
+		};
+		32E44E6A1F2481C0003048C0 /* Home Delivery */ = {
+			isa = PBXGroup;
+			children = (
+				324FFFC81F07B23D006D9F3C /* UDHomeDeliveryViewController.swift */,
+			);
+			name = "Home Delivery";
+			sourceTree = "<group>";
+		};
+		32E44E6B1F2481DC003048C0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				32F00A8D1F10E8280094E956 /* UpperDeck-Bridging-Header.h */,
+				32BC24641F075CEF008661BD /* Assets.xcassets */,
+				32BC24691F075CEF008661BD /* Info.plist */,
+				324FFFCC1F0C1410006D9F3C /* GoogleService-Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		990B620025734744C112B27E /* Pods */ = {
@@ -169,9 +217,9 @@
 				TargetAttributes = {
 					32BC24591F075CEF008661BD = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = H6W9ZFAT2K;
+						DevelopmentTeam = 985XLAHH4B;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -261,9 +309,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				324FFFC91F07B23D006D9F3C /* UDHomeDeliveryViewController.swift in Sources */,
-				324FFFCB1F097872006D9F3C /* UDDishCollectionViewCell.swift in Sources */,
 				324FFFC31F07777A006D9F3C /* UDMainNavigationViewController.swift in Sources */,
 				32BC24601F075CEF008661BD /* LoginViewController.swift in Sources */,
+				32712B3D1F24D37D001631E7 /* UDDishCollectionViewCell.swift in Sources */,
 				32BC245E1F075CEF008661BD /* AppDelegate.swift in Sources */,
 				324FFFC51F07AE83006D9F3C /* UDHomeViewController.swift in Sources */,
 				32BC24701F076739008661BD /* UDMainViewController.swift in Sources */,
@@ -395,11 +443,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = H6W9ZFAT2K;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 985XLAHH4B;
 				INFOPLIST_FILE = UpperDeck/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sai.UpperDeck;
+				PRODUCT_BUNDLE_IDENTIFIER = com.upperdeck.upperdeck;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "92a84e7a-693c-47ca-9e62-1ea7ce241d70";
+				PROVISIONING_PROFILE_SPECIFIER = Upperdeck_Dev_Profile;
 				SWIFT_OBJC_BRIDGING_HEADER = "UpperDeck/UpperDeck-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -412,11 +464,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = H6W9ZFAT2K;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 985XLAHH4B;
 				INFOPLIST_FILE = UpperDeck/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sai.UpperDeck;
+				PRODUCT_BUNDLE_IDENTIFIER = com.upperdeck.upperdeck;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "92a84e7a-693c-47ca-9e62-1ea7ce241d70";
+				PROVISIONING_PROFILE_SPECIFIER = Upperdeck_Dev_Profile;
 				SWIFT_OBJC_BRIDGING_HEADER = "UpperDeck/UpperDeck-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

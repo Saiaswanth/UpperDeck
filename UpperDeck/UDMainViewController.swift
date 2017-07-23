@@ -50,8 +50,10 @@ class UDMainViewController: UIViewController {
             homeViewController = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! UDHomeViewController
         }
         
-        self.containerScrollView.contentSize = CGSize(width: homeViewController.view.frame.size.width, height: homeViewController.view.frame.size.height)
-        
+        self.containerScrollView.contentSize = CGSize(width: homeViewController.view.frame.size.width, height: 575)
+        print("Content Size:\(self.containerScrollView.contentSize)")
+        print ("Width: \(homeViewController.view.frame.size.width) and Height: \(homeViewController.view.frame.size.height)")
+        self.containerScrollView.autoresizesSubviews = true
         self.containerScrollView.addSubview(homeViewController.view)
         
     }
