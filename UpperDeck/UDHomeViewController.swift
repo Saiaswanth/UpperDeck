@@ -24,8 +24,8 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
     let menuDataUrl = "http://www.upperdeck.in/ud/menu_main/menu_items.txt"
     let facilitiesDataUrl = "http://www.upperdeck.in/ud/facilities/facilities.txt"
     
-    var selectedMenu:Int?
-    var selectedFacilities:Int?
+    var selectedMenu:Int = -1
+    var selectedFacilities:Int = -1
     var itemArray: [[String:String]] = [[ : ]]
     var facilitiesArray: [[String:String]] = [[:]]
     
@@ -259,14 +259,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if collectionView == menuCollectionView && selectedMenu != indexPath.row{
-            
-            selectedMenu = indexPath.row
-        }else if collectionView == facilitiesCollectionView && selectedFacilities != indexPath.row{
-            
-            selectedFacilities =  indexPath.row
-        }
-        collectionView.reloadItems(at: [indexPath])
+            collectionView.reloadItems(at: [indexPath])
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -276,6 +269,24 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         
         switch selectedIndexPath {
         case .some(indexPath):
+            
+            if collectionView == menuCollectionView {
+                
+                if selectedMenu == indexPath.row {
+                    
+                    selectedMenu = -1
+                    return CGSize(width: 120, height: 100)
+                }
+                selectedMenu = indexPath.row
+            }else{
+                
+                if selectedFacilities == indexPath.row{
+                    
+                    selectedFacilities = -1
+                    return CGSize(width: 120, height: 100)
+                }
+                selectedFacilities = indexPath.row
+            }
             return CGSize(width: 320, height: 100)
         default:
             return CGSize(width: 120, height: 100)
