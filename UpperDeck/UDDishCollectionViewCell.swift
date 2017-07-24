@@ -11,5 +11,7 @@ import UIKit
 class UDDishCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var itemName: UILabel!
-    @IBOutlet weak var dishImageView: UIImageView!
+    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var itemDescription:UILabel!
+    @IBOutlet weak var itemHintName:UILabel!
 }

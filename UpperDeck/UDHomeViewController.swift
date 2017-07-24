@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate {
+class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
     let reuseIdentifier = "CellIdentifier"
@@ -24,6 +24,8 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
     let menuDataUrl = "http://www.upperdeck.in/ud/menu_main/menu_items.txt"
     let facilitiesDataUrl = "http://www.upperdeck.in/ud/facilities/facilities.txt"
     
+    var selectedMenu:Int?
+    var selectedFacilities:Int?
     var itemArray: [[String:String]] = [[ : ]]
     var facilitiesArray: [[String:String]] = [[:]]
     
@@ -229,22 +231,26 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
                 let imageUrl = menuBaseUrl + itemArray[indexPath.row]["itemImageName"]!
                 let itemName = itemArray[indexPath.row]["itemName"]
                 let itemDescription = itemArray[indexPath.row]["itemDescription"]
-                cell.dishImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
+                cell.itemImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
                 cell.itemName.text = itemName
+                cell.itemHintName.text = itemName
+                cell.itemDescription.text = itemDescription
             }
             
         }
         if collectionView == facilitiesCollectionView {
             
-            cell.dishImageView.backgroundColor = UIColor.darkGray
+            cell.itemImageView.backgroundColor = UIColor.darkGray
             if facilitiesArray.count > 0 {
                 
                 let imageUrl = facilitiesBaseUrl + facilitiesArray[indexPath.row]["itemImageName"]!
                 let itemName = facilitiesArray[indexPath.row]["itemName"]
                 let itemDescription = facilitiesArray[indexPath.row]["itemDescription"]
                 //cell.dishImageView.image = UIImage(named: facilitiesArray[indexPath.row]["itemImageName"]!)
-                cell.dishImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
-                cell.itemName.text = ""
+                cell.itemImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: nil)
+                cell.itemName.text = itemName
+                cell.itemDescription.text = itemDescription
+                cell.itemHintName.text = ""
             }
         }
         
@@ -253,6 +259,27 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if collectionView == menuCollectionView && selectedMenu != indexPath.row{
+            
+            selectedMenu = indexPath.row
+        }else if collectionView == facilitiesCollectionView && selectedFacilities != indexPath.row{
+            
+            selectedFacilities =  indexPath.row
+        }
+        collectionView.reloadItems(at: [indexPath])
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first
+        
+        switch selectedIndexPath {
+        case .some(indexPath):
+            return CGSize(width: 320, height: 100)
+        default:
+            return CGSize(width: 120, height: 100)
+        }
     }
     
     /*
