@@ -26,7 +26,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     var selectedMenu:Int = -1
     var selectedFacilities:Int = -1
-    var itemArray: [[String:String]] = [[ : ]]
+    var itemArray: [[String:String]] = [[ : ]] 
     var facilitiesArray: [[String:String]] = [[:]]
     
     

@@ -44,6 +44,7 @@ class UDMainViewController: UIViewController {
     @IBAction func homeTabSelected(_ sender: Any) {
         
         self.homeTabSelectionView.isHidden = false
+        self.bookingTabSelectionView.isHidden = true
         
         if homeViewController == nil {
             
@@ -54,6 +55,7 @@ class UDMainViewController: UIViewController {
         print("Content Size:\(self.containerScrollView.contentSize)")
         print ("Width: \(homeViewController.view.frame.size.width) and Height: \(homeViewController.view.frame.size.height)")
         self.containerScrollView.autoresizesSubviews = true
+        self.containerScrollView.isScrollEnabled = true
         self.containerScrollView.addSubview(homeViewController.view)
         
     }
@@ -63,14 +65,13 @@ class UDMainViewController: UIViewController {
         
         self.homeTabSelectionView.isHidden = true
         self.bookingTabSelectionView.isHidden = false
-        self.homeDeliveryTabSelectionView.isHidden = true
         
         if bookingViewController == nil{
             
             bookingViewController = storyboard?.instantiateViewController(withIdentifier: "BookingViewController") as! UDBookingViewController
         }
         
-        self.containerScrollView.contentSize = CGSize(width: bookingViewController.view.frame.size.width, height: bookingViewController.view.frame.size.height - 30)
+        self.containerScrollView.contentSize = CGSize(width: bookingViewController.view.frame.size.width, height: bookingViewController.view.frame.size.height)
         self.containerScrollView.addSubview(bookingViewController.view)
     }
     
