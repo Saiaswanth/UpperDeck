@@ -9,15 +9,29 @@
 import UIKit
 import DLRadioButton
 
-protocol ContinueButtonDelegate {
+protocol UDContinueButtonDelegate {
     
     func continueButtonTapped(at indexPath:IndexPath, preferedTimings:[String])
     func cancelButtonTapped(at indexPath:IndexPath)
 }
 
+protocol UDAlertDelegate {
+    
+    func showAlert(with message:String)
+    func showActivityIndicator(isVisible:Bool)
+}
+
+protocol UDBookingStatusDelegate {
+    
+    func reloadContents()
+}
+
 class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     
-    var delegate:ContinueButtonDelegate!
+    var delegate:UDContinueButtonDelegate!
+    var alertDelegate:UDAlertDelegate!
+    var bookingStatusDelegate:UDBookingStatusDelegate!
+    
     var selectedIndexPath:IndexPath!
     var selectedTimings:[String] = []
     var selectedDay:String = "Today"
@@ -28,7 +42,7 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     @IBOutlet weak var selectedHoursView: UIView!
     @IBOutlet weak var facilitiesTimeButton: DLRadioButton!
     @IBOutlet weak var phoneNumberTextField: UITextField!
-    
+    @IBOutlet weak var nameTextField: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,6 +50,7 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
         bookingConfirmationView.isHidden = true
         facilitiesTimeButton.isMultipleSelectionEnabled = true
         self.phoneNumberTextField.delegate = self
+        self.nameTextField.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -130,20 +145,93 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     
     @IBAction func continueButtonTapped(_ sender: Any) {
         
+        if selectedTimings.count < 1 {
+            
+            self.alertDelegate?.showAlert(with: "Please select atleast an hour")
+            return
+        }else if selectedTimings.count > 3{
+            
+            self.alertDelegate?.showAlert(with: "You can book maximum of 3 hours")
+            return
+        }
+        
         bookingTimeView.isHidden = true
         bookingConfirmationView.isHidden = false
         self.delegate?.continueButtonTapped(at: selectedIndexPath, preferedTimings: selectedTimings)
     }
     
     @IBAction func confirmButtonTapped(_ sender: Any) {
+               
+        var facilityRequestDict:[String:String] = ["userName":self.nameTextField.text!,
+                                   "phoneNumber":self.phoneNumberTextField.text!
+        ]
         
+        for selectedTime in selectedTimings {
+            
+            var requestedDate: String = ""
+            
+            let contents = selectedTime.components(separatedBy: " ")
+            let firstChar = contents[4][contents[4].index(contents[4].startIndex, offsetBy: 0)]
+            
+            // To get start time in "06P" or "11A" format
+            let startTimeComponents = contents[1].components(separatedBy: ":")
+            let startTime = startTimeComponents[0] + String(firstChar)
+            
+            // To get end time in "06P" or "11A" format
+            let endTimeComponents = contents[3].components(separatedBy: ":")
+            let endTime = endTimeComponents[0] + String(firstChar)
+            
+            // To get the date
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "ddMMyy"
+            let currentDate = Date()
+            
+            if contents[0] == "Today" {
+                
+                requestedDate = dateFormatter.string(from: currentDate)
+            }else{
+                
+                let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
+                requestedDate = dateFormatter.string(from: tomorrowDate!)
+            }
+            
+            facilityRequestDict["startTime"] = startTime
+            facilityRequestDict["endTime"] = endTime
+            facilityRequestDict["requestedStatus"] = "REQUESTED"
+            facilityRequestDict["date"] = requestedDate
+            facilityRequestDict["tableNumber"] = String(selectedIndexPath.row + 1)
+        }
         
+        self.alertDelegate?.showActivityIndicator(isVisible: true)
+        
+        let udFacilityRequest:UDFacilityRequest = UDFacilityRequest.init(request: facilityRequestDict)
+        UDDataManger.shared.requestFacilities(requestData: udFacilityRequest, completion: {response in
+            
+            self.alertDelegate?.showActivityIndicator(isVisible: false)
+            print (response)
+            
+            if response["result"] as? Int == 1{
+                
+                self.alertDelegate?.showAlert(with: "Booking successful")
+            }else{
+                
+                self.alertDelegate?.showAlert(with: "An unknown error occurred. Please try again")
+            }
+            
+            self.bookingStatusDelegate?.reloadContents()
+        })
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         
         bookingTimeView.isHidden = false
         bookingConfirmationView.isHidden = true
+        
+        let subViews = self.selectedHoursView.subviews
+        for subview in subViews{
+            subview.removeFromSuperview()
+        }
+        
         self.delegate?.cancelButtonTapped(at: selectedIndexPath)
     }
     

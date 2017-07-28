@@ -631,6 +631,9 @@
                                     <outlet property="delegate" destination="RCP-Zt-gFJ" id="qe3-8y-2b0"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EJb-ZD-F9f">
+                                <rect key="frame" x="150" y="315" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -638,6 +641,8 @@
                             <constraint firstItem="p08-jR-mX2" firstAttribute="leading" secondItem="EGb-dQ-Msq" secondAttribute="leading" constant="5" id="JlX-5N-IRw"/>
                             <constraint firstAttribute="trailing" secondItem="p08-jR-mX2" secondAttribute="trailing" constant="5" id="QTX-WN-FIf"/>
                             <constraint firstItem="eTv-S5-6qm" firstAttribute="top" secondItem="p08-jR-mX2" secondAttribute="bottom" constant="8" id="eTx-BK-7vm"/>
+                            <constraint firstItem="EJb-ZD-F9f" firstAttribute="centerX" secondItem="EGb-dQ-Msq" secondAttribute="centerX" id="hgW-uq-9ga"/>
+                            <constraint firstItem="EJb-ZD-F9f" firstAttribute="centerY" secondItem="EGb-dQ-Msq" secondAttribute="centerY" id="pBA-5d-L9x"/>
                             <constraint firstItem="S0W-nn-3UW" firstAttribute="top" secondItem="EGb-dQ-Msq" secondAttribute="top" constant="5" id="q5X-JQ-yrM"/>
                             <constraint firstAttribute="trailing" secondItem="S0W-nn-3UW" secondAttribute="trailing" constant="5" id="t3h-SC-X6T"/>
                             <constraint firstItem="S0W-nn-3UW" firstAttribute="leading" secondItem="EGb-dQ-Msq" secondAttribute="leading" constant="5" id="thK-E6-hjM"/>
@@ -646,6 +651,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="650"/>
                     <connections>
+                        <outlet property="bookingActivityIndicatorView" destination="EJb-ZD-F9f" id="oZm-nI-qqz"/>
                         <outlet property="facilitiesBookingTableView" destination="p08-jR-mX2" id="gOw-IK-JzP"/>
                         <outlet property="myBookingsView" destination="S0W-nn-3UW" id="Bbn-mN-vuI"/>
                     </connections>

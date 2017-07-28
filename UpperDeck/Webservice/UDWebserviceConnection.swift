@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
 
@@ -66,6 +67,38 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
         let task = session.downloadTask(with: url)
         
         task.resume()
+    }
+}
+
+extension UDWebserviceConnection{
+    
+    func requestFacilities(url:String, params: [String: String], completion: @escaping (_ success: [String : AnyObject]) -> Void) {
+        
+        var responseDict:[String:AnyObject] = [:]
+        
+        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default).responseJSON(completionHandler: { response in
+          
+            print(response.result)
+            
+            switch response.result{
+                
+            case .success:
+                if let result = response.result.value {
+                    let JSON = result as! NSDictionary
+                    responseDict["result"] = JSON.object(forKey: "result") as AnyObject
+                    responseDict["status"] = JSON.object(forKey: "status") as AnyObject
+                    print(JSON)
+                    print(responseDict)
+                }
+                break
+                
+            case .failure(let error):
+                print(error)
+            }
+            
+            completion(responseDict)
+            
+        })
     }
 }
 

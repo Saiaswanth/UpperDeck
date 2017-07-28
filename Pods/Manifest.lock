@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.5.0)
   - DLRadioButton (1.4.9)
   - FirebaseAnalytics (3.9.0):
     - FirebaseCore (~> 3.6)
@@ -40,11 +41,13 @@ PODS:
   - SDWebImage/Core (4.0.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 4.4)
   - DLRadioButton (~> 1.4)
   - Google/SignIn
   - SDWebImage (~> 4.0)
 
 SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   DLRadioButton: 7bb8a6e3768b572469ace553391ab4d2af6f9c19
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
@@ -56,6 +59,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
-PODFILE CHECKSUM: 98f1b314eebb15a7fc74f734be3f15517abdc46a
+PODFILE CHECKSUM: ea0f705037576616be498d56b5f706c5a402404e
 
 COCOAPODS: 1.2.1

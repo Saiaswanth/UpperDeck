@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ContinueButtonDelegate {
+class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UDContinueButtonDelegate,UDAlertDelegate,UDBookingStatusDelegate{
 
     let reuseIdentifier = "FacilitiesBookingTableCell"
     
@@ -19,10 +19,13 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     @IBOutlet weak var facilitiesBookingTableView: UITableView!
     @IBOutlet weak var myBookingsView: UIView!
+    @IBOutlet weak var bookingActivityIndicatorView: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.bookingActivityIndicatorView.isHidden = true
+        
         myBookingsView.backgroundColor = UIColor.clear
         myBookingsView.layer.borderWidth = 2;
         myBookingsView.layer.borderColor = UIColor(red: 121/255, green: 85/255, blue: 71/255, alpha: 1.0).cgColor
@@ -61,6 +64,8 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! UDFacilitiesBookingTableViewCell
         cell.selectedIndexPath = indexPath
         cell.delegate = self
+        cell.alertDelegate = self
+        cell.bookingStatusDelegate = self
         
         if indexPath.row == continueButtonTappedIndex {
             
@@ -85,7 +90,7 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         
         if indexPath.row == continueButtonTappedIndex {
             
-            return  335
+            return  360
         }
         
         if indexPath.row == selectedRowIndex || indexPath.row == cancelButtonTappedIndex{
@@ -114,5 +119,38 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         self.facilitiesBookingTableView.beginUpdates()
         self.facilitiesBookingTableView.endUpdates()
     }
+    
+    func showAlert(with message:String){
+        
+        let alertController = UIAlertController(title: "UpperDeck", message: message, preferredStyle: .alert)
+        let okPressed = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+        })
+        
+        alertController.addAction(okPressed)
+        present(alertController, animated: true, completion: nil)
+        
+    }
+    
+    func showActivityIndicator(isVisible:Bool){
+        
+        if isVisible {
+            
+            self.bookingActivityIndicatorView.isHidden = false
+            self.bookingActivityIndicatorView.startAnimating()
+        }else{
+            
+            self.bookingActivityIndicatorView.stopAnimating()
+            self.bookingActivityIndicatorView.isHidden = true
+        }
+    }
+    
+    func reloadContents(){
+        
+        continueButtonTappedIndex = -1
+        selectedRowIndex = -1
+        cancelButtonTappedIndex = -1
+        facilitiesBookingTableView.reloadData()
+    }
+    
     
 }

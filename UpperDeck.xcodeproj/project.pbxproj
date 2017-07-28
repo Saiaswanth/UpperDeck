@@ -26,6 +26,8 @@
 		32F00A8C1F10E8080094E956 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F00A8B1F10E8080094E956 /* AddressBook.framework */; };
 		32FB7D561F27AE9C00B73466 /* UDFacilitiesBookingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB7D551F27AE9C00B73466 /* UDFacilitiesBookingTableViewCell.swift */; };
 		32FB7D581F27B31900B73466 /* UDFacilitiesBookingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32FB7D571F27B31900B73466 /* UDFacilitiesBookingTableViewCell.xib */; };
+		32FB7D5D1F2A232E00B73466 /* UDDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB7D5C1F2A232E00B73466 /* UDDataManger.swift */; };
+		32FB7D601F2A2A4A00B73466 /* UDFacilityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB7D5F1F2A2A4A00B73466 /* UDFacilityRequest.swift */; };
 		4457AB8D60F1BABADFC431EE /* Pods_UpperDeck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5D3B3A2A30A00BA748CD62 /* Pods_UpperDeck.framework */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +55,8 @@
 		32F00A8B1F10E8080094E956 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		32FB7D551F27AE9C00B73466 /* UDFacilitiesBookingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDFacilitiesBookingTableViewCell.swift; path = Booking/UDFacilitiesBookingTableViewCell.swift; sourceTree = "<group>"; };
 		32FB7D571F27B31900B73466 /* UDFacilitiesBookingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UDFacilitiesBookingTableViewCell.xib; path = Booking/UDFacilitiesBookingTableViewCell.xib; sourceTree = "<group>"; };
+		32FB7D5C1F2A232E00B73466 /* UDDataManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDDataManger.swift; path = DataManager/UDDataManger.swift; sourceTree = "<group>"; };
+		32FB7D5F1F2A2A4A00B73466 /* UDFacilityRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDFacilityRequest.swift; path = Models/UDFacilityRequest.swift; sourceTree = "<group>"; };
 		AB5D3B3A2A30A00BA748CD62 /* Pods_UpperDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UpperDeck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -92,6 +96,8 @@
 		32BC245C1F075CEF008661BD /* UpperDeck */ = {
 			isa = PBXGroup;
 			children = (
+				32FB7D5E1F2A248000B73466 /* Models */,
+				32FB7D591F2A22CE00B73466 /* DataManger */,
 				324397F81F2611B4008F4A3F /* Assets.xcassets */,
 				324397F91F2611B4008F4A3F /* GoogleService-Info.plist */,
 				324397F61F25E587008F4A3F /* Info.plist */,
@@ -159,6 +165,22 @@
 				324397DC1F25E2EB008F4A3F /* UDHomeDeliveryViewController.swift */,
 			);
 			name = "Home Delivery";
+			sourceTree = "<group>";
+		};
+		32FB7D591F2A22CE00B73466 /* DataManger */ = {
+			isa = PBXGroup;
+			children = (
+				32FB7D5C1F2A232E00B73466 /* UDDataManger.swift */,
+			);
+			name = DataManger;
+			sourceTree = "<group>";
+		};
+		32FB7D5E1F2A248000B73466 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				32FB7D5F1F2A2A4A00B73466 /* UDFacilityRequest.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		990B620025734744C112B27E /* Pods */ = {
@@ -314,7 +336,9 @@
 				324397E31F25E338008F4A3F /* UDMainNavigationViewController.swift in Sources */,
 				32BC245E1F075CEF008661BD /* AppDelegate.swift in Sources */,
 				324397DF1F25E312008F4A3F /* UDBookingViewController.swift in Sources */,
+				32FB7D601F2A2A4A00B73466 /* UDFacilityRequest.swift in Sources */,
 				324397DD1F25E2EB008F4A3F /* UDHomeDeliveryViewController.swift in Sources */,
+				32FB7D5D1F2A232E00B73466 /* UDDataManger.swift in Sources */,
 				324397EA1F25E39D008F4A3F /* UDHomeViewController.swift in Sources */,
 				324397EB1F25E39D008F4A3F /* UDDishCollectionViewCell.swift in Sources */,
 				324397E71F25E376008F4A3F /* UDWebserviceConnection.swift in Sources */,
