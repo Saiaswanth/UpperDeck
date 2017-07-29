@@ -68,9 +68,6 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
             
             timingButtons.append(button)
         }
-        
-//        selectedDaySegmentControl.selectedSegmentIndex = 0
-//        selectedDaySegmentControl.sendActions(for: UIControlEvents.valueChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
