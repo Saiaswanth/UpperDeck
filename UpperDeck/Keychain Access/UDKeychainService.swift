@@ -22,6 +22,7 @@ let accessGroup = "SecuritySerivice"
 let mobileNumberKey = "KeyForMobileNumber"
 let usernameKey = "KeyForUsername"
 let deviceIdKey = "KeyForDeviceId"
+let emailIdKey = "KeyForEmailId"
 
 // Arguments for the keychain queries
 let kSecClassValue = NSString(format: kSecClass)
@@ -51,6 +52,10 @@ public class UDKeychainService: NSObject {
         self.save(service: deviceIdKey, data: deviceId)
     }
     
+    public class func saveUserEmailId(emailId:String){
+        self.save(service: emailIdKey, data: emailId)
+    }
+    
     public class func loadMobileNumber() -> String? {
         return self.load(service: mobileNumberKey)
     }
@@ -61,6 +66,10 @@ public class UDKeychainService: NSObject {
     
     public class func loadDeviceId() -> String?{
         return self.load(service: deviceIdKey)
+    }
+    
+    public class func loadEmailId() -> String?{
+        return self.load(service: emailIdKey)
     }
     
     /**

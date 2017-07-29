@@ -12,6 +12,7 @@ private let _sharedInstance = UDDataManger()
 
 let facilityRequestUrl = "http://www.upperdeck.in/api/insert_table_request/"
 let getFilledSlotsUrl = "http://upperdeck.in/api/getFilledSlotsOfDay/"
+let getBookedSlotsUrl = "http://upperdeck.in/api/getBookedSlots/"
 
 class UDDataManger: NSObject {
     
@@ -60,6 +61,33 @@ class UDDataManger: NSObject {
             print (filledSlots)
             completion(filledSlots)
         })
+    }
+    
+    func  getBookedSlots(completion: @escaping (_ success:UDBookedSlots) -> Void) {
+        
+        var paramDictionary:[String:String] = [:]
+        
+        if let deviceId = UDKeychainService.loadDeviceId(){
+            paramDictionary["deviceid"] = deviceId
+        }
+        if let phoneNumber = UDKeychainService.loadMobileNumber() {
+            paramDictionary["phno"] = phoneNumber
+        }
+        if let emailId = UDKeychainService.loadEmailId(){
+            paramDictionary["emailid"] = emailId
+        }
+        
+        
+        UDWebserviceConnection(homeViewController).getDetails(url: getBookedSlotsUrl, params: paramDictionary, completion: {response in
+            
+            print ("Get booked slots response:\(response)")
+            
+            let bookedSlots:UDBookedSlots = UDBookedSlots.init(request: response as! [String : AnyObject])
+            
+            print (bookedSlots)
+            completion(bookedSlots)
+        })
+        
     }
 
 }

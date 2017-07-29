@@ -74,7 +74,7 @@ class UDMainViewController: UIViewController {
             
             bookingViewController = storyboard?.instantiateViewController(withIdentifier: "BookingViewController") as! UDBookingViewController
         }
-        
+        bookingViewController.getBookedSlots()
         self.containerScrollView.contentSize = CGSize(width: bookingViewController.view.frame.size.width, height: bookingViewController.view.frame.size.height)
         self.containerScrollView.addSubview(bookingViewController.view)
     }

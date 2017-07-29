@@ -38,10 +38,10 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         let nib = UINib(nibName: "UDFacilitiesBookingTableViewCell", bundle: nil)
         
         facilitiesBookingTableView.register(nib, forCellReuseIdentifier: reuseIdentifier)
-    
-//        facilitiesBookingTableView.register(UDFacilitiesBookingTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
-    }
 
+    }
+    
+    //UITableView delegate and datasource methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Num: \(indexPath.row)")
         
@@ -66,18 +66,12 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! UDFacilitiesBookingTableViewCell
-        let dateFormatter = DateFormatter()
-        let currentDate = Date()
         
         cell.facilityName.text = facilitiesArray[indexPath.row]["facilityName"]!
         cell.facilityTodayAvailability.text = facilitiesArray[indexPath.row]["facilityTodayAvailability"]!
         cell.facilityTomorrowAvailability.text = facilitiesArray[indexPath.row]["facilityTomorrowAvailability"]
         cell.facilityImageView.image = UIImage(named: facilitiesArray[indexPath.row]["facilityImageName"]!)
-        
-        
-        dateFormatter.dateFormat = "ddMMyy"
-        let requestedDate = dateFormatter.string(from: currentDate)
-        
+  
         
         cell.selectedIndexPath = indexPath
         cell.delegate = self
@@ -129,29 +123,35 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         return 80
     }
     
+    public func getBookedSlots() {
+        
+        UDDataManger.shared.getBookedSlots(completion: { response in
+            print(response)
+        })
+    }
     
-     func createFacilitiesSampleData() {
-     
-     
-        let dictionaryA = ["facilityName": "Pool Table",
-                        "facilityImageName": "pooltable.jpg",
-                        "facilityTodayAvailability": "4/12 hours available today",
-                        "facilityTomorrowAvailability": "4/12 hours available tomorrow"
-        ]
-        let dictionaryB = ["facilityName": "Play Station",
-                        "facilityImageName": "playstation.png",
-                        "facilityTodayAvailability": "4/12 hours available today",
-                        "facilityTomorrowAvailability": "4/12 hours available tomorrow"
-        ]
-        let dictionaryC = ["facilityName": "Foosball",
-                           "facilityImageName": "foosball.jpg",
-                           "facilityTodayAvailability": "4/12 hours available today",
-                           "facilityTomorrowAvailability": "4/12 hours available tomorrow"
-        ]
-        facilitiesArray.append(dictionaryA)
-        facilitiesArray.append(dictionaryB)
-        facilitiesArray.append(dictionaryC)
-     }
+    func createFacilitiesSampleData() {
+    
+    
+       let dictionaryA = ["facilityName": "Pool Table",
+                       "facilityImageName": "pooltable.jpg",
+                       "facilityTodayAvailability": "4/12 hours available today",
+                       "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+       ]
+       let dictionaryB = ["facilityName": "Play Station",
+                       "facilityImageName": "playstation.png",
+                       "facilityTodayAvailability": "4/12 hours available today",
+                       "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+       ]
+       let dictionaryC = ["facilityName": "Foosball",
+                          "facilityImageName": "foosball.jpg",
+                          "facilityTodayAvailability": "4/12 hours available today",
+                          "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+       ]
+       facilitiesArray.append(dictionaryA)
+       facilitiesArray.append(dictionaryB)
+       facilitiesArray.append(dictionaryC)
+    }
     
     
     //cell delegate method

@@ -74,7 +74,7 @@ extension UDWebserviceConnection{
     
     func getDetails(url:String, params: [String:String], completion: @escaping (_ success: NSDictionary) -> Void) {
         
-        print(params)
+        print("Passed Parameter:\(params)")
         
         
         //let parameter = ["tn": "1", "et": "10P", "st": "09P", "un": "sai", "ph": "7777777777", "dt": "300717", "deviceid": "A19CD559-0D73-4239-814B-7CB393CF58B8", "ss": "REQUESTED"]
