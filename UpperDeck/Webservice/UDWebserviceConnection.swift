@@ -72,23 +72,28 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
 
 extension UDWebserviceConnection{
     
-    func requestFacilities(url:String, params: [String: String], completion: @escaping (_ success: [String : AnyObject]) -> Void) {
+    func getDetails(url:String, params: [String:String], completion: @escaping (_ success: NSDictionary) -> Void) {
         
-        var responseDict:[String:AnyObject] = [:]
+        print(params)
         
-        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default).responseJSON(completionHandler: { response in
-          
+        
+        //let parameter = ["tn": "1", "et": "10P", "st": "09P", "un": "sai", "ph": "7777777777", "dt": "300717", "deviceid": "A19CD559-0D73-4239-814B-7CB393CF58B8", "ss": "REQUESTED"]
+        //let parameter = ["datestr":"290717", "tno":"1"]
+        //let testUrl1 = "http://www.upperdeck.in/api/insert_table_request/?un=Sai&ph=7777777777&tn=1&st=09P&et=10P&ss=REQUESTED&dt=290717&deviceid=A19CD559-0D73-4239-814B-7CB393CF58B8"
+        //let testUrl = "http://upperdeck.in/api/getFilledSlotsOfDay/?datestr=300717&tno=1"
+        
+        
+        Alamofire.request(url, method: .post, parameters: params,encoding: URLEncoding.default, headers: nil).responseJSON(completionHandler: { response in
+        
             print(response.result)
+            var JSON:NSDictionary = [:]
             
             switch response.result{
                 
             case .success:
                 if let result = response.result.value {
-                    let JSON = result as! NSDictionary
-                    responseDict["result"] = JSON.object(forKey: "result") as AnyObject
-                    responseDict["status"] = JSON.object(forKey: "status") as AnyObject
+                    JSON = result as! NSDictionary
                     print(JSON)
-                    print(responseDict)
                 }
                 break
                 
@@ -96,7 +101,7 @@ extension UDWebserviceConnection{
                 print(error)
             }
             
-            completion(responseDict)
+            completion(JSON)
             
         })
     }

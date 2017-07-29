@@ -26,6 +26,10 @@ class UDMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //Saving deviceId to keychain
+        let deviceUUID: String = (UIDevice.current.identifierForVendor?.uuidString)!
+        UDKeychainService.saveDeviceId(deviceId: deviceUUID)
+        
         setupUI()
     }
 

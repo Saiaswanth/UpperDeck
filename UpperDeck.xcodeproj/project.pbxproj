@@ -17,10 +17,12 @@
 		324397EB1F25E39D008F4A3F /* UDDishCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324397E91F25E39D008F4A3F /* UDDishCollectionViewCell.swift */; };
 		324397F71F25E587008F4A3F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 324397F61F25E587008F4A3F /* Info.plist */; };
 		324397FA1F2611B4008F4A3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324397F81F2611B4008F4A3F /* Assets.xcassets */; };
-		324397FB1F2611B4008F4A3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 324397F91F2611B4008F4A3F /* GoogleService-Info.plist */; };
+		32A2A8CE1F2C585400237348 /* UDKeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A2A8CD1F2C585400237348 /* UDKeychainService.swift */; };
 		32BC245E1F075CEF008661BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC245D1F075CEF008661BD /* AppDelegate.swift */; };
 		32BC24631F075CEF008661BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32BC24611F075CEF008661BD /* Main.storyboard */; };
 		32BC24681F075CEF008661BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32BC24661F075CEF008661BD /* LaunchScreen.storyboard */; };
+		32EA4AEE1F2CBF2100D4E479 /* UDFilledSlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EA4AED1F2CBF2100D4E479 /* UDFilledSlots.swift */; };
+		32EA4AF01F2CBFCF00D4E479 /* UDBookedSlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EA4AEF1F2CBFCF00D4E479 /* UDBookedSlots.swift */; };
 		32F00A881F10E7F10094E956 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F00A871F10E7F10094E956 /* StoreKit.framework */; };
 		32F00A8A1F10E7FB0094E956 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F00A891F10E7FB0094E956 /* SystemConfiguration.framework */; };
 		32F00A8C1F10E8080094E956 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F00A8B1F10E8080094E956 /* AddressBook.framework */; };
@@ -45,11 +47,13 @@
 		324397F51F25E54F008F4A3F /* UpperDeck-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UpperDeck-Bridging-Header.h"; sourceTree = "<group>"; };
 		324397F61F25E587008F4A3F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		324397F81F2611B4008F4A3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		324397F91F2611B4008F4A3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		32A2A8CD1F2C585400237348 /* UDKeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDKeychainService.swift; path = "Keychain Access/UDKeychainService.swift"; sourceTree = "<group>"; };
 		32BC245A1F075CEF008661BD /* UpperDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpperDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BC245D1F075CEF008661BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32BC24621F075CEF008661BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		32BC24671F075CEF008661BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		32EA4AED1F2CBF2100D4E479 /* UDFilledSlots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDFilledSlots.swift; path = Models/UDFilledSlots.swift; sourceTree = "<group>"; };
+		32EA4AEF1F2CBFCF00D4E479 /* UDBookedSlots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDBookedSlots.swift; path = Models/UDBookedSlots.swift; sourceTree = "<group>"; };
 		32F00A871F10E7F10094E956 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		32F00A891F10E7FB0094E956 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		32F00A8B1F10E8080094E956 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -75,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32A2A8CC1F2C582B00237348 /* Keychain Access */ = {
+			isa = PBXGroup;
+			children = (
+				32A2A8CD1F2C585400237348 /* UDKeychainService.swift */,
+			);
+			name = "Keychain Access";
+			sourceTree = "<group>";
+		};
 		32BC24511F075CEF008661BD = {
 			isa = PBXGroup;
 			children = (
@@ -96,10 +108,10 @@
 		32BC245C1F075CEF008661BD /* UpperDeck */ = {
 			isa = PBXGroup;
 			children = (
+				32A2A8CC1F2C582B00237348 /* Keychain Access */,
 				32FB7D5E1F2A248000B73466 /* Models */,
 				32FB7D591F2A22CE00B73466 /* DataManger */,
 				324397F81F2611B4008F4A3F /* Assets.xcassets */,
-				324397F91F2611B4008F4A3F /* GoogleService-Info.plist */,
 				324397F61F25E587008F4A3F /* Info.plist */,
 				324397F51F25E54F008F4A3F /* UpperDeck-Bridging-Header.h */,
 				32E44E6A1F2481C0003048C0 /* Home Delivery */,
@@ -179,6 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				32FB7D5F1F2A2A4A00B73466 /* UDFacilityRequest.swift */,
+				32EA4AED1F2CBF2100D4E479 /* UDFilledSlots.swift */,
+				32EA4AEF1F2CBFCF00D4E479 /* UDBookedSlots.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -269,7 +283,6 @@
 			files = (
 				32BC24681F075CEF008661BD /* LaunchScreen.storyboard in Resources */,
 				324397F71F25E587008F4A3F /* Info.plist in Resources */,
-				324397FB1F2611B4008F4A3F /* GoogleService-Info.plist in Resources */,
 				324397FA1F2611B4008F4A3F /* Assets.xcassets in Resources */,
 				32BC24631F075CEF008661BD /* Main.storyboard in Resources */,
 				32FB7D581F27B31900B73466 /* UDFacilitiesBookingTableViewCell.xib in Resources */,
@@ -334,6 +347,9 @@
 				324397E51F25E356008F4A3F /* LoginViewController.swift in Sources */,
 				324397E21F25E338008F4A3F /* UDMainViewController.swift in Sources */,
 				324397E31F25E338008F4A3F /* UDMainNavigationViewController.swift in Sources */,
+				32A2A8CE1F2C585400237348 /* UDKeychainService.swift in Sources */,
+				32EA4AF01F2CBFCF00D4E479 /* UDBookedSlots.swift in Sources */,
+				32EA4AEE1F2CBF2100D4E479 /* UDFilledSlots.swift in Sources */,
 				32BC245E1F075CEF008661BD /* AppDelegate.swift in Sources */,
 				324397DF1F25E312008F4A3F /* UDBookingViewController.swift in Sources */,
 				32FB7D601F2A2A4A00B73466 /* UDFacilityRequest.swift in Sources */,
@@ -409,7 +425,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -454,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

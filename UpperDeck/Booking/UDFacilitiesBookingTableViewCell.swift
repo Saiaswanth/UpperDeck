@@ -34,7 +34,9 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     
     var selectedIndexPath:IndexPath!
     var selectedTimings:[String] = []
+    var timingButtons:[DLRadioButton]=[]
     var selectedDay:String = "Today"
+    
 
     @IBOutlet weak var selectedDaySegmentControl: UISegmentedControl!
     @IBOutlet weak var bookingTimeView: UIView!
@@ -43,14 +45,32 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     @IBOutlet weak var facilitiesTimeButton: DLRadioButton!
     @IBOutlet weak var phoneNumberTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var hidingView: UIView!
+    
+    @IBOutlet weak var facilityImageView: UIImageView!
+    @IBOutlet weak var facilityName: UILabel!
+    @IBOutlet weak var facilityTomorrowAvailability: UILabel!
+    @IBOutlet weak var facilityTodayAvailability: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         bookingConfirmationView.isHidden = true
         facilitiesTimeButton.isMultipleSelectionEnabled = true
+        hidingView.isHidden = true
+        
         self.phoneNumberTextField.delegate = self
         self.nameTextField.delegate = self
+        
+        //Adding timings buttons in an array
+        timingButtons.append(self.facilitiesTimeButton)
+        for button in self.facilitiesTimeButton.otherButtons {
+            
+            timingButtons.append(button)
+        }
+        
+//        selectedDaySegmentControl.selectedSegmentIndex = 0
+//        selectedDaySegmentControl.sendActions(for: UIControlEvents.valueChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -109,6 +129,42 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
         
     }
     
+    public func getFilledSlotsOfRequestedDate(requestedDate:String, tableNumber:String){
+        
+        self.alertDelegate?.showActivityIndicator(isVisible: true)
+        self.hidingView.isHidden = false
+        
+        UDDataManger.shared.getFilledSlotsForDay(date: requestedDate, tableNumber: tableNumber, completion: { response in
+            
+            self.alertDelegate?.showActivityIndicator(isVisible: false)
+            self.hidingView.isHidden = true
+            print(response)
+           
+            for individualSlot in response.filledSlots{
+                
+                for individualTimingButton in self.timingButtons{
+                    
+                    let buttonText = individualTimingButton.titleLabel?.text
+                    let contents = buttonText?.components(separatedBy: " ")
+                    let firstChar = contents?[3][(contents?[3].index((contents?[3].startIndex)!, offsetBy: 0))!]
+                    
+                    // To get start time in "06P" or "11A" format
+                    let startTimeComponents = contents?[0].components(separatedBy: ":")
+                    let startTime = (startTimeComponents?[0])! + String(firstChar!)
+                    
+                    if individualSlot["startTime"] == startTime{
+                        
+                        individualTimingButton.isEnabled = false
+                        individualTimingButton.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
+                    }
+                    
+                }
+            }
+        })
+        
+        
+    }
+    
     //UITextField Delegate method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         
@@ -133,14 +189,32 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
 
     @IBAction func daySegmentControlAction(_ sender: UISegmentedControl) {
         
+        var requestedDate:String!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "ddMMyy"
+        let currentDate = Date()
+        
+        //For reseting the color of all buttons
+        for individualTimingButton in self.timingButtons{
+            
+            individualTimingButton.isEnabled = true
+            individualTimingButton.setTitleColor(UIColor(red: 121/255, green: 85/255, blue: 71/255, alpha: 1.0), for: UIControlState.normal)
+        }
+        
         switch selectedDaySegmentControl.selectedSegmentIndex {
         case 0:
             selectedDay = selectedDaySegmentControl.titleForSegment(at: 0)!
+            requestedDate = dateFormatter.string(from: currentDate)
+            
         case 1:
             selectedDay = selectedDaySegmentControl.titleForSegment(at: 1)!
+            let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
+            requestedDate = dateFormatter.string(from: tomorrowDate!)
+            
         default:
             break
         }
+        getFilledSlotsOfRequestedDate(requestedDate: requestedDate, tableNumber: String(selectedIndexPath.row + 1))
     }
     
     @IBAction func continueButtonTapped(_ sender: Any) {
@@ -161,7 +235,23 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     }
     
     @IBAction func confirmButtonTapped(_ sender: Any) {
-               
+        
+        if (self.nameTextField.text?.isEmpty)! ||  (self.phoneNumberTextField.text?.isEmpty)!{
+            
+            self.alertDelegate?.showAlert(with: "Please Enter Name and Mobile Number")
+            return
+        }
+        
+        //Saving user phone number and username to keychain
+        if !(self.nameTextField.text?.isEmpty)! {
+            UDKeychainService.saveUsername(username: self.nameTextField.text!)
+        }
+        
+        if !(self.phoneNumberTextField.text?.isEmpty)! {
+            UDKeychainService.saveMobileNumber(number: self.phoneNumberTextField.text!)
+        }
+        
+        //Creating request dictionary
         var facilityRequestDict:[String:String] = ["userName":self.nameTextField.text!,
                                    "phoneNumber":self.phoneNumberTextField.text!
         ]
@@ -200,6 +290,7 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
             facilityRequestDict["requestedStatus"] = "REQUESTED"
             facilityRequestDict["date"] = requestedDate
             facilityRequestDict["tableNumber"] = String(selectedIndexPath.row + 1)
+            facilityRequestDict["deviceId"] = UDKeychainService.loadDeviceId()
         }
         
         self.alertDelegate?.showActivityIndicator(isVisible: true)
@@ -207,15 +298,16 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
         let udFacilityRequest:UDFacilityRequest = UDFacilityRequest.init(request: facilityRequestDict)
         UDDataManger.shared.requestFacilities(requestData: udFacilityRequest, completion: {response in
             
+            self.selectedTimings.removeAll()
             self.alertDelegate?.showActivityIndicator(isVisible: false)
             print (response)
             
             if response["result"] as? Int == 1{
                 
-                self.alertDelegate?.showAlert(with: "Booking successful")
+                self.alertDelegate?.showAlert(with: "Booking Successful")
             }else{
                 
-                self.alertDelegate?.showAlert(with: "An unknown error occurred. Please try again")
+                self.alertDelegate?.showAlert(with: "An Unknown Error Occurred. Please Try Again")
             }
             
             self.bookingStatusDelegate?.reloadContents()

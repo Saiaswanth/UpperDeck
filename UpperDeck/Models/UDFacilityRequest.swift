@@ -17,6 +17,7 @@ struct UDFacilityRequest {
     let endTime:String?
     let requestedStatus:String?
     let date:String?
+    let deviceId:String?
 }
 
 extension UDFacilityRequest{
@@ -30,6 +31,7 @@ extension UDFacilityRequest{
         self.endTime =  request["endTime"]
         self.requestedStatus = request["requestedStatus"]
         self.date = request["date"]
+        self.deviceId = request["deviceId"]
         
     }
 }

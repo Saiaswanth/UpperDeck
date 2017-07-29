@@ -16,6 +16,7 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
     var continueButtonTappedIndex:Int = -1
     var cancelButtonTappedIndex:Int = -1
     var selectedTimings:[String] = []
+    var facilitiesArray: [[String:String]] = [[:]]
     
     @IBOutlet weak var facilitiesBookingTableView: UITableView!
     @IBOutlet weak var myBookingsView: UIView!
@@ -25,6 +26,9 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         super.viewDidLoad()
 
         self.bookingActivityIndicatorView.isHidden = true
+        
+        facilitiesArray.removeAll()
+        createFacilitiesSampleData()
         
         myBookingsView.backgroundColor = UIColor.clear
         myBookingsView.layer.borderWidth = 2;
@@ -62,6 +66,19 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! UDFacilitiesBookingTableViewCell
+        let dateFormatter = DateFormatter()
+        let currentDate = Date()
+        
+        cell.facilityName.text = facilitiesArray[indexPath.row]["facilityName"]!
+        cell.facilityTodayAvailability.text = facilitiesArray[indexPath.row]["facilityTodayAvailability"]!
+        cell.facilityTomorrowAvailability.text = facilitiesArray[indexPath.row]["facilityTomorrowAvailability"]
+        cell.facilityImageView.image = UIImage(named: facilitiesArray[indexPath.row]["facilityImageName"]!)
+        
+        
+        dateFormatter.dateFormat = "ddMMyy"
+        let requestedDate = dateFormatter.string(from: currentDate)
+        
+        
         cell.selectedIndexPath = indexPath
         cell.delegate = self
         cell.alertDelegate = self
@@ -70,6 +87,15 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         if indexPath.row == continueButtonTappedIndex {
             
             cell.bookingTimeView.isHidden = true
+            
+            if let mobileNumber = UDKeychainService.loadMobileNumber(){
+                cell.phoneNumberTextField.text = mobileNumber
+            }
+            
+            if let username = UDKeychainService.loadUsername(){
+                cell.nameTextField.text = username
+            }
+            
             cell.selectedTimings = selectedTimings
             cell.setUpSelectedHoursView()
             cell.bookingConfirmationView.isHidden = false
@@ -77,6 +103,9 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
             
             cell.bookingTimeView.isHidden = false
             cell.bookingConfirmationView.isHidden = true
+            
+            cell.selectedDaySegmentControl.selectedSegmentIndex = 0
+            cell.selectedDaySegmentControl.sendActions(for: UIControlEvents.valueChanged)
         }else{
             cell.bookingTimeView.isHidden = true
             cell.bookingConfirmationView.isHidden = true
@@ -99,6 +128,31 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         }
         return 80
     }
+    
+    
+     func createFacilitiesSampleData() {
+     
+     
+        let dictionaryA = ["facilityName": "Pool Table",
+                        "facilityImageName": "pooltable.jpg",
+                        "facilityTodayAvailability": "4/12 hours available today",
+                        "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+        ]
+        let dictionaryB = ["facilityName": "Play Station",
+                        "facilityImageName": "playstation.png",
+                        "facilityTodayAvailability": "4/12 hours available today",
+                        "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+        ]
+        let dictionaryC = ["facilityName": "Foosball",
+                           "facilityImageName": "foosball.jpg",
+                           "facilityTodayAvailability": "4/12 hours available today",
+                           "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+        ]
+        facilitiesArray.append(dictionaryA)
+        facilitiesArray.append(dictionaryB)
+        facilitiesArray.append(dictionaryC)
+     }
+    
     
     //cell delegate method
     
@@ -134,11 +188,11 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
     func showActivityIndicator(isVisible:Bool){
         
         if isVisible {
-            
+            self.view.isUserInteractionEnabled = false
             self.bookingActivityIndicatorView.isHidden = false
             self.bookingActivityIndicatorView.startAnimating()
         }else{
-            
+            self.view.isUserInteractionEnabled = true
             self.bookingActivityIndicatorView.stopAnimating()
             self.bookingActivityIndicatorView.isHidden = true
         }
