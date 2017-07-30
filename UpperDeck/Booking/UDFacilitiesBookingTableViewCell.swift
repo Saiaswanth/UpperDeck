@@ -161,6 +161,62 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
         
     }
     
+    func enableRemainingTimings(){
+        
+    
+        let date = NSDate() // return current time and date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a" // for specifying the change to format hour:minute am/pm.
+        let timeInString = dateFormatter.string(from: date as Date) // provide current time in string formatted in 06:35 PM if current time is 18:35
+        let timeContents = timeInString.components(separatedBy: " ")
+        let timeComponents = timeContents[0].components(separatedBy:":")
+        
+        var presentTimeInHours = Int(timeComponents[0])
+        
+        if presentTimeInHours == 12 {
+            presentTimeInHours = 00
+        }
+        
+        var buttonTag:Int!
+        
+        //For getting the button tag of current time
+        for individualTimingButton in self.timingButtons{
+            
+            let buttonText = individualTimingButton.titleLabel?.text
+            let contents = buttonText?.components(separatedBy: " ")
+            
+            let timeComponents = contents?[0].components(separatedBy: ":")
+            let endTimeInButtonText = Int((timeComponents?[0])!)
+            
+            var finalTimeInHours = presentTimeInHours! + 1
+            
+            if finalTimeInHours == 12{
+                finalTimeInHours = 00
+            }
+            
+            if endTimeInButtonText! == finalTimeInHours{
+                
+                buttonTag = individualTimingButton.tag
+                
+            }
+            
+        }
+        
+        //For disabling the buttons
+        for individualTimingButton in self.timingButtons{
+            
+            if individualTimingButton.tag <= buttonTag {
+                
+                individualTimingButton.isEnabled = false
+                individualTimingButton.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
+            }else{
+                individualTimingButton.isEnabled = true
+                individualTimingButton.setTitleColor(UIColor(red: 121/255, green: 85/255, blue: 71/255, alpha: 1.0), for: UIControlState.normal)
+            }
+        }
+        
+    }
+    
     //UITextField Delegate method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         
@@ -200,6 +256,8 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
                 individualTimingButton.isSelected = false
             }
         }
+        
+        self.enableRemainingTimings()
         
         switch selectedDaySegmentControl.selectedSegmentIndex {
         case 0:

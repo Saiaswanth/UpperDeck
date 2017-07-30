@@ -228,7 +228,6 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         })
     }
     
-    
     func createFacilitiesSampleData() {
     
     

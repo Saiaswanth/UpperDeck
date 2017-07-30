@@ -40,7 +40,11 @@ extension UDFilledSlots{
                 slotsDictionary["endTime"] = endTime
             }
             
-            self.filledSlots.append(slotsDictionary)
+            if slotsDictionary.count > 0 {
+                
+                self.filledSlots.append(slotsDictionary)
+            }
+            
         }
     }
 }
