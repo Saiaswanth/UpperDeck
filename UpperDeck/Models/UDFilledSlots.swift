@@ -30,11 +30,15 @@ extension UDFilledSlots{
         self.filledSlots.removeAll()
         for request in requests {
             
-            let startTime:String? = request["st"]
-            let endTime:String? = request["et"]
             var slotsDictionary:[String:String] = [:]
-            slotsDictionary["startTime"] = startTime
-            slotsDictionary["endTime"] = endTime
+            if let startTime = request["st"] {
+                
+                slotsDictionary["startTime"] = startTime
+            }
+            if let endTime =  request["et"]{
+                
+                slotsDictionary["endTime"] = endTime
+            }
             
             self.filledSlots.append(slotsDictionary)
         }

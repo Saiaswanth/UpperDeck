@@ -55,7 +55,7 @@ class UDDataManger: NSObject {
         UDWebserviceConnection(homeViewController).getDetails(url: getFilledSlotsUrl, params: paramDictionary, completion: {response in
             
             print ("Get filled slots response:\(response)")
-            
+           
             let filledSlots:UDFilledSlots = UDFilledSlots.init(requests:(response.object(forKey: "table_requests") as AnyObject) as! [[String : String]] )
             
             print (filledSlots)
@@ -64,7 +64,6 @@ class UDDataManger: NSObject {
     }
     
     func  getBookedSlots(completion: @escaping (_ success:UDBookedSlots) -> Void) {
-        
         var paramDictionary:[String:String] = [:]
         
         if let deviceId = UDKeychainService.loadDeviceId(){

@@ -90,7 +90,6 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
         selectedHoursStackView.distribution  = UIStackViewDistribution.equalSpacing
         selectedHoursStackView.alignment = UIStackViewAlignment.center
         selectedHoursStackView.spacing   = 5.0
-        selectedHoursStackView.backgroundColor = UIColor.red
         
         //Text Label
         let selectedHoursLabel = UILabel()
@@ -196,6 +195,10 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
             
             individualTimingButton.isEnabled = true
             individualTimingButton.setTitleColor(UIColor(red: 121/255, green: 85/255, blue: 71/255, alpha: 1.0), for: UIControlState.normal)
+            if individualTimingButton.isSelected {
+                
+                individualTimingButton.isSelected = false
+            }
         }
         
         switch selectedDaySegmentControl.selectedSegmentIndex {

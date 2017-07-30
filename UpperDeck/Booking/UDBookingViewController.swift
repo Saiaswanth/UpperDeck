@@ -21,6 +21,8 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
     @IBOutlet weak var facilitiesBookingTableView: UITableView!
     @IBOutlet weak var myBookingsView: UIView!
     @IBOutlet weak var bookingActivityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var myBookingsViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var myBookingsDetailsView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,26 +129,123 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         
         UDDataManger.shared.getBookedSlots(completion: { response in
             print(response)
+            
+            var bookedSlotsArray:[[String:String]] = [[:]]
+            bookedSlotsArray.removeAll()
+            
+            for bookedSlot in response.bookedSlots{
+                
+                var bookedSlotsDict:[String:String] = [:]
+                bookedSlotsDict.removeAll()
+                
+                // For getting facility name
+                let tableNumber:String = bookedSlot["tableNumber"]!
+                var facilityName:String
+                switch tableNumber{
+                case "1":
+                    facilityName = "Pool Table"
+                    break
+                case "2":
+                    facilityName = "Play Station"
+                    break
+                case "3":
+                    facilityName = "Foosball"
+                    break
+                default:
+                    facilityName = ""
+                    break
+                }
+                bookedSlotsDict["facilityName"] = facilityName
+                
+                //For getting date
+                let myDateString = bookedSlot["date"]!
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "ddMMyy"
+                let myDate = dateFormatter.date(from: myDateString)!
+                
+                dateFormatter.dateFormat = "dd-MM-yy"
+                let formattedDateString = dateFormatter.string(from: myDate)
+                
+                bookedSlotsDict["date"] = formattedDateString
+                
+                // For getting time slot
+                var startTime = bookedSlot["startTime"]!
+                var endTime = bookedSlot["endTime"]!
+                
+                let startTimeIndex = startTime.index(startTime.startIndex, offsetBy: 2)
+                startTime = startTime.substring(to: startTimeIndex) + ":" + "00"
+
+                let sessionType = endTime.characters.last!
+                
+                let endTimeIndex = endTime.index(endTime.startIndex, offsetBy: 2)
+                endTime = endTime.substring(to: endTimeIndex) + ":" + "00"
+                
+                // Converting individual start time and end time to 00:00 - 01:00 PM format
+                let formattedTime = startTime + "-" + endTime + " "
+                bookedSlotsDict["time"] = formattedTime + String(describing: sessionType) + "M"
+                
+                bookedSlotsArray.append(bookedSlotsDict)
+            }
+            
+            self.myBookingsViewHeightConstraint.constant = CGFloat(bookedSlotsArray.count * 25 + 60)
+            
+            let subViews = self.myBookingsDetailsView.subviews
+            for subview in subViews{
+                subview.removeFromSuperview()
+            }
+            
+            //Stack View
+            let bookedSlotsStackView = UIStackView()
+            bookedSlotsStackView.axis  = UILayoutConstraintAxis.vertical
+            bookedSlotsStackView.distribution  = UIStackViewDistribution.equalSpacing
+            bookedSlotsStackView.alignment = UIStackViewAlignment.center
+            bookedSlotsStackView.spacing   = 5.0
+            
+            
+            for individualSlot in bookedSlotsArray{
+                
+                let slotText = individualSlot["facilityName"]! + "    " + individualSlot["time"]! + "\t\t" + individualSlot["date"]!
+                
+                let bookedSlotLabel = UILabel()
+                bookedSlotLabel.widthAnchor.constraint(equalToConstant: self.myBookingsDetailsView.frame.width).isActive = true
+                bookedSlotLabel.heightAnchor.constraint(equalToConstant: 21.0).isActive = true
+                bookedSlotLabel.text  = slotText
+                bookedSlotLabel.textAlignment = .left
+                bookedSlotLabel.textColor=UIColor.black
+                bookedSlotLabel.font=UIFont.systemFont(ofSize: 14)
+                bookedSlotsStackView.addArrangedSubview(bookedSlotLabel)
+            }
+            
+            bookedSlotsStackView.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.myBookingsDetailsView.addSubview(bookedSlotsStackView)
+            
+            //Constraints
+            bookedSlotsStackView.centerXAnchor.constraint(equalTo: self.myBookingsDetailsView.centerXAnchor).isActive = true
+            bookedSlotsStackView.centerYAnchor.constraint(equalTo: self.myBookingsDetailsView.centerYAnchor).isActive = true
+            
         })
     }
+    
     
     func createFacilitiesSampleData() {
     
     
        let dictionaryA = ["facilityName": "Pool Table",
                        "facilityImageName": "pooltable.jpg",
-                       "facilityTodayAvailability": "4/12 hours available today",
-                       "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+                       "facilityTodayAvailability": "12/12 hours available today",
+                       "facilityTomorrowAvailability": "12/12 hours available tomorrow"
        ]
        let dictionaryB = ["facilityName": "Play Station",
                        "facilityImageName": "playstation.png",
-                       "facilityTodayAvailability": "4/12 hours available today",
-                       "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+                       "facilityTodayAvailability": "12/12 hours available today",
+                       "facilityTomorrowAvailability": "12/12 hours available tomorrow"
        ]
        let dictionaryC = ["facilityName": "Foosball",
                           "facilityImageName": "foosball.jpg",
-                          "facilityTodayAvailability": "4/12 hours available today",
-                          "facilityTomorrowAvailability": "4/12 hours available tomorrow"
+                          "facilityTodayAvailability": "12/12 hours available today",
+                          "facilityTomorrowAvailability": "12/12 hours available tomorrow"
        ]
        facilitiesArray.append(dictionaryA)
        facilitiesArray.append(dictionaryB)
@@ -203,6 +302,8 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         continueButtonTappedIndex = -1
         selectedRowIndex = -1
         cancelButtonTappedIndex = -1
+        
+        getBookedSlots()
         facilitiesBookingTableView.reloadData()
     }
     
