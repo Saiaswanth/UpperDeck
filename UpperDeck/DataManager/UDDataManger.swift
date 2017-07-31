@@ -16,8 +16,6 @@ let getBookedSlotsUrl = "http://upperdeck.in/api/getBookedSlots/"
 
 class UDDataManger: NSObject {
     
-    var homeViewController:UDHomeViewController = UDHomeViewController()
-    
     class var shared:UDDataManger{
         return _sharedInstance
     }
@@ -35,7 +33,7 @@ class UDDataManger: NSObject {
                                                "deviceid":requestData.deviceId!]
         
         
-        UDWebserviceConnection(homeViewController).getDetails(url: facilityRequestUrl, params: paramDictionary, completion: {response in
+        UDWebserviceConnection().getDetails(url: facilityRequestUrl, params: paramDictionary, completion: {response in
             
             responseDict["result"] = response.object(forKey: "result") as AnyObject
             responseDict["status"] = response.object(forKey: "status") as AnyObject
@@ -52,7 +50,7 @@ class UDDataManger: NSObject {
                                                "tno":tableNumber]
         
         
-        UDWebserviceConnection(homeViewController).getDetails(url: getFilledSlotsUrl, params: paramDictionary, completion: {response in
+        UDWebserviceConnection().getDetails(url: getFilledSlotsUrl, params: paramDictionary, completion: {response in
             
             print ("Get filled slots response:\(response)")
            
@@ -77,7 +75,7 @@ class UDDataManger: NSObject {
         }
         
         
-        UDWebserviceConnection(homeViewController).getDetails(url: getBookedSlotsUrl, params: paramDictionary, completion: {response in
+        UDWebserviceConnection().getDetails(url: getBookedSlotsUrl, params: paramDictionary, completion: {response in
             
             print ("Get booked slots response:\(response)")
             

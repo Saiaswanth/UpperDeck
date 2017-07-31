@@ -257,12 +257,11 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
             }
         }
         
-        self.enableRemainingTimings()
-        
         switch selectedDaySegmentControl.selectedSegmentIndex {
         case 0:
             selectedDay = selectedDaySegmentControl.titleForSegment(at: 0)!
             requestedDate = dateFormatter.string(from: currentDate)
+            self.enableRemainingTimings()
             
         case 1:
             selectedDay = selectedDaySegmentControl.titleForSegment(at: 1)!

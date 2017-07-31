@@ -9,17 +9,16 @@
 import UIKit
 import Alamofire
 
+protocol UDWebserviceDelegate {
+    
+    func downloadedFile(to destinationUrl:URL, identifier:String)
+}
+
 class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
 
     var downloadUrl:URL!
-    
-    var homeViewController:UDHomeViewController!
-    
-    init(_ obj1 : UDHomeViewController)
-    {
-        self.homeViewController = obj1
-    }
-    
+    var delegate:UDWebserviceDelegate!
+
     //is called once the download is complete
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL)
     {
@@ -29,16 +28,7 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
         let dataFromURL = NSData(contentsOf: location)
         dataFromURL?.write(to: destinationUrl, atomically: true)
         
-        if session.configuration.identifier == "Menu" {
-            
-            self.homeViewController.loadDataFromDownloadedMenuText(destinationUrl)
-        }else{
-            
-            self.homeViewController.loadDataFromDownloadedFacilitiesText(destinationUrl)
-        }
-    
-        
-        
+        self.delegate?.downloadedFile(to: destinationUrl, identifier: session.configuration.identifier!)
     }
     
     //this is to track progress

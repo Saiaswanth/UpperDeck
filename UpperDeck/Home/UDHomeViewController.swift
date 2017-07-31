@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,UDWebserviceDelegate {
 
     // Constants
     let reuseIdentifier = "CellIdentifier"
@@ -62,14 +62,15 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         facilitiesCollectionActivityIndicatorView.startAnimating()
         menuCollectionActivityIndicatorView.startAnimating()
         
-        UDWebserviceConnection(self).download(url: menuUrl!, identifier: "Menu")
-        UDWebserviceConnection(self).download(url: facilitiesUrl!, identifier: "Facilities")
+        let webserviceConnection:UDWebserviceConnection = UDWebserviceConnection()
+        webserviceConnection.delegate = self
+        webserviceConnection.download(url: menuUrl!, identifier: "Menu")
+        webserviceConnection.download(url: facilitiesUrl!, identifier: "Facilities")
+        
+//        UDWebserviceConnection(self).download(url: menuUrl!, identifier: "Menu")
+//        UDWebserviceConnection(self).download(url: facilitiesUrl!, identifier: "Facilities")
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     
@@ -291,6 +292,18 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         default:
             return CGSize(width: 120, height: 100)
         }
+    }
+    
+    func downloadedFile(to destinationUrl:URL, identifier:String){
+        
+        if identifier == "Menu"{
+            
+            self.loadDataFromDownloadedMenuText(destinationUrl)
+        }else{
+            
+            self.loadDataFromDownloadedFacilitiesText(destinationUrl)
+        }
+        
     }
     
     /*
