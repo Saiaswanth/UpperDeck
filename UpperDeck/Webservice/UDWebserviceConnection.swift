@@ -18,6 +18,13 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
 
     var downloadUrl:URL!
     var delegate:UDWebserviceDelegate!
+    
+    var homeViewController:UDHomeViewController!
+   
+   init(_ obj1 : UDHomeViewController)
+   {
+       self.homeViewController = obj1
+   }
 
     //is called once the download is complete
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL)
@@ -28,7 +35,15 @@ class UDWebserviceConnection: NSObject,URLSessionDownloadDelegate {
         let dataFromURL = NSData(contentsOf: location)
         dataFromURL?.write(to: destinationUrl, atomically: true)
         
-        self.delegate?.downloadedFile(to: destinationUrl, identifier: session.configuration.identifier!)
+        //self.delegate?.downloadedFile(to: destinationUrl, identifier: session.configuration.identifier!)
+        
+        if session.configuration.identifier == "Menu" {
+      
+            self.homeViewController.loadDataFromDownloadedMenuText(destinationUrl)
+       }else{
+      
+            self.homeViewController.loadDataFromDownloadedFacilitiesText(destinationUrl)
+       }
     }
     
     //this is to track progress

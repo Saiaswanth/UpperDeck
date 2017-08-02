@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,UDWebserviceDelegate {
+class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
     let reuseIdentifier = "CellIdentifier"
@@ -57,18 +57,16 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         facilitiesArray.removeAll()
         
         let menuUrl = URL(string: menuDataUrl)
-        let facilitiesUrl = URL(string: facilitiesDataUrl)
         
         facilitiesCollectionActivityIndicatorView.startAnimating()
         menuCollectionActivityIndicatorView.startAnimating()
         
-        let webserviceConnection:UDWebserviceConnection = UDWebserviceConnection()
-        webserviceConnection.delegate = self
-        webserviceConnection.download(url: menuUrl!, identifier: "Menu")
-        webserviceConnection.download(url: facilitiesUrl!, identifier: "Facilities")
+//        let webserviceConnection:UDWebserviceConnection = UDWebserviceConnection()
+//        webserviceConnection.delegate = self
+//        webserviceConnection.download(url: menuUrl!, identifier: "Menu")
+//        webserviceConnection.download(url: facilitiesUrl!, identifier: "Facilities")
         
-//        UDWebserviceConnection(self).download(url: menuUrl!, identifier: "Menu")
-//        UDWebserviceConnection(self).download(url: facilitiesUrl!, identifier: "Facilities")
+        UDWebserviceConnection(self).download(url: menuUrl!, identifier: "Menu")
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +77,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
     public func loadDataFromDownloadedMenuText(_ filePath:URL){
         
         print("Downloaded file path is : \(filePath)")
+        let facilitiesUrl = URL(string: facilitiesDataUrl)
         
         do {
             let mytext = try String(contentsOf: filePath)
@@ -110,6 +109,8 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
         self.menuCollectionView.reloadData()
         menuCollectionActivityIndicatorView.stopAnimating()
         menuCollectionActivityIndicatorView.isHidden = true
+        
+        UDWebserviceConnection(self).download(url: facilitiesUrl!, identifier: "Facilities")
         
     }
     
@@ -293,18 +294,7 @@ class UDHomeViewController: UIViewController,UICollectionViewDataSource,UICollec
             return CGSize(width: 120, height: 100)
         }
     }
-    
-    func downloadedFile(to destinationUrl:URL, identifier:String){
-        
-        if identifier == "Menu"{
-            
-            self.loadDataFromDownloadedMenuText(destinationUrl)
-        }else{
-            
-            self.loadDataFromDownloadedFacilitiesText(destinationUrl)
-        }
-        
-    }
+
     
     /*
      func createFacilitiesSampleData() {

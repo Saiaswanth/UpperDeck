@@ -26,11 +26,17 @@ protocol UDBookingStatusDelegate {
     func reloadContents()
 }
 
+protocol UDFacilitiesBookingTableViewCellDelegate {
+    
+    func touchedTextView(at touchedFrameSize:CGPoint)
+}
+
 class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     
     var delegate:UDContinueButtonDelegate!
     var alertDelegate:UDAlertDelegate!
     var bookingStatusDelegate:UDBookingStatusDelegate!
+    var facilitiesBookingDelegate:UDFacilitiesBookingTableViewCellDelegate!
     
     var selectedIndexPath:IndexPath!
     var selectedTimings:[String] = []
@@ -79,6 +85,10 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
     
      public func setUpSelectedHoursView(){
         
+        let subViews = self.selectedHoursView.subviews
+        for subview in subViews{
+            subview.removeFromSuperview()
+        }
         
         self.selectedHoursView.layer.borderWidth = 2.0
         self.selectedHoursView.layer.borderColor = UIColor(red: 121/255, green: 85/255, blue: 71/255, alpha: 1.0).cgColor
@@ -225,6 +235,45 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
         return true
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == nameTextField {
+            print(nameTextField.frame)
+            
+            //let globalPoint = nameTextField.superview?.convert(nameTextField.frame.origin, to: nil)
+        }
+        return true
+    }
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        
+        var filtered:String!
+        if textField == phoneNumberTextField {
+            
+            /* So first we take the inverted set of the characters we want to keep,
+             this will act as the separator set, i.e. those characters we want to
+             take out from the user input */
+            let inverseSet = NSCharacterSet(charactersIn:"01234567890").inverted
+            
+            /* We then use this separator set to remove those unwanted characters.
+             So we are basically separating the characters we want to keep, by those
+             we don't */
+            let components = string.components(separatedBy:inverseSet)
+            
+            /* We then join those characters together */
+            filtered = components.joined(separator: "")
+            
+            if ((textField.text?.characters.count)! + (string.characters.count - range.length)) > 10 {
+                self.alertDelegate?.showAlert(with: "Please Enter 10 Digit Phone Number")
+                return false
+            }
+            
+        }
+        
+        
+        return string == filtered
+    }
     
     @IBAction func facilitiesTimeSelectionButtonTapped(_ radioButton : DLRadioButton) {
         
@@ -362,6 +411,7 @@ class UDFacilitiesBookingTableViewCell: UITableViewCell,UITextFieldDelegate {
             if response["result"] as? Int == 1{
                 
                 self.alertDelegate?.showAlert(with: "Booking Successful")
+                self.selectedTimings.removeAll()
             }else{
                 
                 self.alertDelegate?.showAlert(with: "An Unknown Error Occurred. Please Try Again")

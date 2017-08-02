@@ -17,6 +17,7 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
     var cancelButtonTappedIndex:Int = -1
     var selectedTimings:[String] = []
     var facilitiesArray: [[String:String]] = [[:]]
+    var keyboardVisibility:Bool = false
     
     @IBOutlet weak var facilitiesBookingTableView: UITableView!
     @IBOutlet weak var myBookingsView: UIView!
@@ -40,12 +41,53 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         let nib = UINib(nibName: "UDFacilitiesBookingTableViewCell", bundle: nil)
         
         facilitiesBookingTableView.register(nib, forCellReuseIdentifier: reuseIdentifier)
+        
+        // Listen for keyboard appearances and disappearances
+        let center = NotificationCenter.default
+        center.addObserver(self,
+                           selector: #selector(keyboardWillShow(notification:)),
+                           name: .UIKeyboardWillShow,
+                           object: nil)
+        
+        center.addObserver(self,
+                           selector: #selector(keyboardWillHide(notification:)),
+                           name: .UIKeyboardWillHide,
+                           object: nil)
+
 
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    //UIKeyboardNotification
+    func keyboardWillShow(notification: NSNotification){
+        
+        keyboardVisibility = true
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            print(keyboardHeight)
+        }
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification){
+        // Do something here
+        keyboardVisibility = false
+    }
+
     
     //UITableView delegate and datasource methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Num: \(indexPath.row)")
+        
+        if keyboardVisibility {
+            return
+        }
         
         continueButtonTappedIndex = -1
         cancelButtonTappedIndex = -1
@@ -74,6 +116,8 @@ class UDBookingViewController: UIViewController,UITableViewDelegate,UITableViewD
         cell.facilityTomorrowAvailability.text = facilitiesArray[indexPath.row]["facilityTomorrowAvailability"]
         cell.facilityImageView.image = UIImage(named: facilitiesArray[indexPath.row]["facilityImageName"]!)
   
+        cell.bookingTimeView.isHidden = true
+        cell.bookingConfirmationView.isHidden = true
         
         cell.selectedIndexPath = indexPath
         cell.delegate = self
